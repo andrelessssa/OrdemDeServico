@@ -1,6 +1,17 @@
 package com.andre.os.domain;
 
-public class Cliente extends Pessoa {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+
+@Entity
+public class Cliente extends Pessoa implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @OneToMany
+    private List<OS> List = new ArrayList<>();
 
     public Cliente() {
         super();
@@ -9,4 +20,13 @@ public class Cliente extends Pessoa {
     public Cliente(Integer id, String nome, String cpf, String telefone) {
         super(id, nome, cpf, telefone);
     }
+
+    public List<OS> getList() {
+        return List;
+    }
+
+    public void setList(List<OS> list) {
+        List = list;
+    }
+
 }
