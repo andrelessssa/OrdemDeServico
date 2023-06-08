@@ -40,7 +40,7 @@ public class OS {
         this.setStatus(Status.ABERTO);
     }
 
-    public OS(Integer id, LocalDateTime dataFechamento, Prioridades prioridades,
+    public OS(Integer id, Prioridades prioridades,
             String observacoes, Status status, Tecnico tecnico, Cliente cliente) {
         this.id = id;
         this.setDataAbertura(LocalDateTime.now());
