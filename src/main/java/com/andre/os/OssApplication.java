@@ -21,8 +21,10 @@ public class OssApplication implements CommandLineRunner {
 
 	@Autowired
 	private OsRepository osRepository;
+
 	@Autowired
 	private TecnicoRepository tecnicoRepository;
+
 	@Autowired
 	private ClienteRepository clienteRepository;
 

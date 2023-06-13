@@ -1,17 +1,13 @@
 package com.andre.os.domain;
 
-import java.time.LocalDateTime;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.andre.os.domain.enuns.Prioridades;
 import com.andre.os.domain.enuns.Status;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 public class OS {
@@ -23,10 +19,9 @@ public class OS {
     private LocalDateTime dataAbertura;
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime dataFechamento;
-    private Integer prioridades;
+    private Integer prioridade;
     private String observacoes;
     private Integer status;
-
     @ManyToOne
     @JoinColumn(name = "tecnico_id")
     private Tecnico tecnico;
@@ -36,15 +31,14 @@ public class OS {
 
     public OS() {
         this.setDataAbertura(LocalDateTime.now());
-        this.setPrioridades(Prioridades.BAIXA);
+        this.setPrioridade(Prioridades.BAIXA);
         this.setStatus(Status.ABERTO);
     }
 
-    public OS(Integer id, Prioridades prioridades,
-            String observacoes, Status status, Tecnico tecnico, Cliente cliente) {
+    public OS(Integer id, Prioridades prioridade, String observacoes, Status status, Tecnico tecnico, Cliente cliente) {
         this.id = id;
         this.setDataAbertura(LocalDateTime.now());
-        this.prioridades = (prioridades == null) ? 0 : prioridades.getCod();
+        this.prioridade = (prioridade == null) ? 0 : prioridade.getCod();
         this.observacoes = observacoes;
         this.status = (status == null) ? 0 : status.getCod();
         this.tecnico = tecnico;
@@ -75,12 +69,12 @@ public class OS {
         this.dataFechamento = dataFechamento;
     }
 
-    public Prioridades getPrioridades() {
-        return Prioridades.toEnum(this.prioridades);
+    public Prioridades getPrioridade() {
+        return Prioridades.toEnum(this.prioridade);
     }
 
-    public void setPrioridades(Prioridades prioridades) {
-        this.prioridades = prioridades.getCod();
+    public void setPrioridade(Prioridades prioridade) {
+        this.prioridade = prioridade.getCod();
     }
 
     public String getObservacoes() {
@@ -116,28 +110,17 @@ public class OS {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        OS os = (OS) o;
+        return Objects.equals(id, os.id);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        OS other = (OS) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
+    public int hashCode() {
+        return Objects.hash(id);
     }
-
 }
